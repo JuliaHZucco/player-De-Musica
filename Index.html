@@ -9,15 +9,16 @@
 </head>
 <body>
     <div class="music-container">
-        <h4 id="playlist-title">Playlist Pop</h4>
-        <img id="cover" src="/imagens/gaga.webp"></img>
+        <h4 id="playlist-title">Playlist</h4>
+        <img id="cover" alt="Disc Cover"></img>
+        <audio id="audio" ></audio>
 
         <div id="below-cover">
             <div id="song-info">
-                <div id="song-name">Million Reasons</div>
-                <div id="band name" class="light-color">Lady Gaga</div>
+                <div id="song-name">Nome da musica</div>
+                <div id="band-name" class="light-color">Nome artista</div>
             </div>
-            <div id="like" class="button light-color"><i class="bi bi-heart"></i></div>
+            <button id="like" class="button light-color"><i class="bi bi-heart"></i></button>
         </div>
 
         <div id="progress-bar">
@@ -25,12 +26,15 @@
         </div>
 
         <div id="button-container">
-            <div id="shuflle" class="button"><i class="bi bi-shuffle"></i></div>
-            <div id="next" class="button button-navigate"><i class="bi bi-skip-start"></i></div>
-            <div id="play" class="button button-biggest"><i class="bi bi-play-circle-fill"></i></div>
-            <div id="skip" class="button button-navigate"><i class="bi bi-skip-end"></i></div>
-            <div id="repeat" class="button"><i class="bi bi-repeat"></i></div>
+            <button id="shuflle" class="button"><i class="bi bi-shuffle"></i></button>
+            <button id="next" class="button button-navigate"><i class="bi bi-skip-start"></i></button>
+            <button id="play" class="button button-biggest"><i class="bi bi-play-circle-fill"></i></button>
+            <button id="previous" class="button button-navigate"><i class="bi bi-skip-end"></i></button>
+            <button id="repeat" class="button"><i class="bi bi-repeat"></i></button>
         </div>
     </div>
+
+    <script src="/script.js"></script>
+
 </body>
 </html>
