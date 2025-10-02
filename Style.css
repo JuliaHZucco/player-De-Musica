@@ -62,5 +62,15 @@ body {
 
 #progress-bar {
     background-color: rgb(139, 153, 156);
+    height: 3px;
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 1em;
 }
 
+#current-progress {
+    background-color: white ;
+    height: inherit;
+    width: 50%;
+    border-radius: inherit;
+}
