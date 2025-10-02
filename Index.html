@@ -8,22 +8,27 @@
     <title>TocadorMusica</title>
 </head>
 <body>
-    <h4>Player de Música</h4>
+    <div class="music-container">
+        <h4 id="playlist-title">Playlist aleatória</h4>
+        <img id="cover" src="/imagens/gaga.webp"></img>
 
-    <img src="/imagens/gaga.webp"></img>
+        <div id="below-cover">
+            <div id="song-info">
+                <div id="song-name">Nome música</div>
+                <div id="band name" class="light-color">Nome banda</div>
+            </div>
+            <div id="like" class="button light-color"><i class="bi bi-heart"></i></div>
+        </div>
 
-    <div>
-        <div>Nome música</div>
-        <div>Nome banda</div>
-        <div><i class="bi bi-heart"></i></div>
-    </div>
-    <div>Barra Progresso</div>
-    <div>
-        <div><i class="bi bi-repeat"></i></div>
-        <div><i class="bi bi-skip-start"></i></div>
-        <div><i class="bi bi-play-circle-fill"></i></div>
-        <div><i class="bi bi-skip-end"></i></div>
-        <div><i class="bi bi-shuffle"></i></div>
+        <div id="progress-bar">Barra Progresso</div>
+
+        <div id="button-container">
+            <div id="shuflle" class="button"><i class="bi bi-shuffle"></i></div>
+            <div id="next" class="button button-navigate"><i class="bi bi-skip-start"></i></div>
+            <div id="play" class="button button-biggest"><i class="bi bi-play-circle-fill"></i></div>
+            <div id="skip" class="button button-navigate"><i class="bi bi-skip-end"></i></div>
+            <div id="repeat" class="button"><i class="bi bi-repeat"></i></div>
+        </div>
     </div>
 </body>
 </html>
