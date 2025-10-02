@@ -5,8 +5,9 @@ const play = document.getElementById("play");
 const cover = document.getElementById("cover");
 const next = document.getElementById("next");
 const previous= document.getElementById("previous");
-const currentProgress = document.getElementById("current-progress")
-const progressContainer = document.getElementById("progress-container")
+const currentProgress = document.getElementById("current-progress");
+const progressContainer = document.getElementById("progress-container");
+const shuffleButton = document.getElementById("shuffle");
 
 const millionReasons = {
     songName : "Million Reasons",
@@ -27,11 +28,12 @@ const justDance = {
 }
 
 let isPlaying = false;
-const playlist = [millionReasons, badRomance, justDance];
+let isShuffled = false;
+const originalPlaylist = [millionReasons, badRomance, justDance];
+let sortedPlaylist = [...originalPlaylist];
 let index = 0;
 
 function playsong(){
-    //recupera o ícone de play, remove o play e aciona a visão do botão de pause
     play.querySelector(".bi").classList.remove("bi-play-circle-fill");
     play.querySelector(".bi").classList.add("bi-pause-circle-fill");
     song.play();
@@ -39,7 +41,6 @@ function playsong(){
 }
 
 function pausesong(){
-    //recupera o ícone de play, remove o pause e aciona a visão do botão de play
     play.querySelector(".bi").classList.add("bi-play-circle-fill");
     play.querySelector(".bi").classList.remove("bi-pause-circle-fill");
     song.pause();
@@ -55,16 +56,16 @@ function playPauseDecider(){
 }
 
 function initializeSong(){
-    cover.src = `imagens/${playlist[index].file}.jpg`;
-    song.src = `songs/${playlist[index].file}.mp3`;
-    songName.innerText = playlist[index].songName;
-    bandName.innerText = playlist[index].artist;
+    cover.src = `imagens/${originalPlaylist[index].file}.jpg`;
+    song.src = `songs/${originalPlaylist[index].file}.mp3`;
+    songName.innerText = originalPlaylist[index].songName;
+    bandName.innerText = originalPlaylist[index].artist;
 
 }
 
 function previousSong(){
     if(index === 0){
-        index = playlist.length -1;
+        index = originalPlaylist.length -1;
     } else {
         index -= 1;
     }
@@ -73,7 +74,7 @@ function previousSong(){
 }
 
 function nextSong(){
-    if(index === 0){
+    if(index === originalPlaylist.length -1){
         index = 0;
     } else {
         index += 1;
@@ -94,10 +95,42 @@ function jumpTo(){
     song.currentTime =  jumpToTime;
 }
 
+function shuffleArray(preShuffleArray){
+    const shuffledArray = [...preShuffleArray];  
+    const size = shuffledArray.length;  
+    let currentIndex = size - 1;
+
+    while (currentIndex > 0) {
+        let randomIndex = Math.floor(Math.random() * (currentIndex + 1));  
+        let aux = shuffledArray[currentIndex];
+        shuffledArray[currentIndex] = shuffledArray[randomIndex];
+        shuffledArray[randomIndex] = aux;
+        currentIndex -= 1;
+    }
+
+    return shuffledArray;
+}
+
+function shuffleButtonClicked() {
+    if(isShuffled === false){
+        isShuffled = true;
+        sortedPlaylist = shuffleArray(originalPlaylist);  
+        shuffleButton.classList.add("button-active");
+        index = 0;  
+    } else {
+        isShuffled = false;
+        sortedPlaylist = [...originalPlaylist];  
+        shuffleButton.classList.remove("button-active");
+        index = 0;  
+    }
+    initializeSong();
+}
+
 initializeSong();
 
 play.addEventListener("click", playPauseDecider);
 previous.addEventListener("click", previousSong);
 next.addEventListener("click", nextSong);
-song.addEventListener(`timeupdate`, updateProgressBar);
+song.addEventListener('timeupdate', updateProgressBar);
 progressContainer.addEventListener("click", jumpTo);
+shuffleButton.addEventListener("click", shuffleButtonClicked);
