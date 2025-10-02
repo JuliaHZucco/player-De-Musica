@@ -8,6 +8,7 @@ const previous= document.getElementById("previous");
 const currentProgress = document.getElementById("current-progress");
 const progressContainer = document.getElementById("progress-container");
 const shuffleButton = document.getElementById("shuffle");
+const repeatButton = document.getElementById("repeat");
 
 const millionReasons = {
     songName : "Million Reasons",
@@ -29,6 +30,7 @@ const justDance = {
 
 let isPlaying = false;
 let isShuffled = false;
+let repeatOn = false;
 const originalPlaylist = [millionReasons, badRomance, justDance];
 let sortedPlaylist = [...originalPlaylist];
 let index = 0;
@@ -110,8 +112,7 @@ function shuffleArray(preShuffleArray){
     return shuffledArray;
 }
 
-
-function shuffleButtonClicked() {
+function shuffleButtonClicked(){
     if (isShuffled === false) {
         isShuffled = true;
         sortedPlaylist = shuffleArray([...sortedPlaylist]);  
@@ -124,12 +125,38 @@ function shuffleButtonClicked() {
     initializeSong();  
 }
 
+function repeatButtonClicked(){
+    if (repeatOn === false) {
+        repeatOn = true;
+        repeatButton.classList.add("button-active");
+    } else {
+        repeatOn = false;
+        repeatButton.classList.remove("button-active");
+    }
+}
+
+function nextOrRepeat(){
+    if (repeatOn === false){
+        nextSong();
+    } else {
+        song.currentTime = 0; 
+        playsong(); 
+    }
+}
+
+song.addEventListener('ended', () => {
+    if (repeatOn) {
+        song.currentTime = 0;  
+        playsong(); 
+    }
+});
 
 initializeSong();
 
 play.addEventListener("click", playPauseDecider);
 previous.addEventListener("click", previousSong);
-next.addEventListener("click", nextSong);
+next.addEventListener("click", nextOrRepeat);  // Usando nextOrRepeat para controlar repetição
 song.addEventListener('timeupdate', updateProgressBar);
 progressContainer.addEventListener("click", jumpTo);
 shuffleButton.addEventListener("click", shuffleButtonClicked);
+repeatButton.addEventListener("click", repeatButtonClicked);
