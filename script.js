@@ -56,16 +56,15 @@ function playPauseDecider(){
 }
 
 function initializeSong(){
-    cover.src = `imagens/${originalPlaylist[index].file}.jpg`;
-    song.src = `songs/${originalPlaylist[index].file}.mp3`;
-    songName.innerText = originalPlaylist[index].songName;
-    bandName.innerText = originalPlaylist[index].artist;
-
+    cover.src = `imagens/${sortedPlaylist[index].file}.jpg`;
+    song.src = `songs/${sortedPlaylist[index].file}.mp3`;
+    songName.innerText = sortedPlaylist[index].songName;
+    bandName.innerText = sortedPlaylist[index].artist;
 }
 
 function previousSong(){
     if(index === 0){
-        index = originalPlaylist.length -1;
+        index = sortedPlaylist.length - 1;
     } else {
         index -= 1;
     }
@@ -74,7 +73,7 @@ function previousSong(){
 }
 
 function nextSong(){
-    if(index === originalPlaylist.length -1){
+    if(index === sortedPlaylist.length - 1){
         index = 0;
     } else {
         index += 1;
@@ -111,20 +110,20 @@ function shuffleArray(preShuffleArray){
     return shuffledArray;
 }
 
+
 function shuffleButtonClicked() {
-    if(isShuffled === false){
+    if (isShuffled === false) {
         isShuffled = true;
-        sortedPlaylist = shuffleArray(originalPlaylist);  
+        sortedPlaylist = shuffleArray([...sortedPlaylist]);  
         shuffleButton.classList.add("button-active");
-        index = 0;  
+        index = 0; 
     } else {
         isShuffled = false;
-        sortedPlaylist = [...originalPlaylist];  
         shuffleButton.classList.remove("button-active");
-        index = 0;  
     }
-    initializeSong();
+    initializeSong();  
 }
+
 
 initializeSong();
 
