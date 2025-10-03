@@ -37,11 +37,11 @@ const justDance = {
 let isPlaying = false;
 let isShuffled = false;
 let repeatOn = false;
-
 const originalPlaylist = JSON.parse(localStorage.getItem("playlist")) ?? [millionReasons, badRomance, justDance];
 let sortedPlaylist = [...originalPlaylist];
 let index = 0;
 
+// função para tocar música 
 function playsong(){
     play.querySelector(".bi").classList.remove("bi-play-circle-fill");
     play.querySelector(".bi").classList.add("bi-pause-circle-fill");
@@ -49,6 +49,7 @@ function playsong(){
     isPlaying = true;
 }
 
+// função para pausar música
 function pausesong(){
     play.querySelector(".bi").classList.add("bi-play-circle-fill");
     play.querySelector(".bi").classList.remove("bi-pause-circle-fill");
@@ -56,6 +57,7 @@ function pausesong(){
     isPlaying = false;
 }
 
+// função para tocar música ou pausar música dependendo do estado atual
 function playPauseDecider(){
     if (isPlaying === true){
         pausesong();
@@ -64,6 +66,7 @@ function playPauseDecider(){
     }
 }
 
+// função para renderizar o botão de like
 function likeButtonRender(){
     if (sortedPlaylist[index].liked === true){
         likeButton.querySelector(".bi").classList.remove("bi-heart");
@@ -76,6 +79,7 @@ function likeButtonRender(){
     }
 }
 
+// função para inicializar a música atual
 function initializeSong(){
     cover.src = `imagens/${sortedPlaylist[index].file}.jpg`;
     song.src = `songs/${sortedPlaylist[index].file}.mp3`;
@@ -84,6 +88,7 @@ function initializeSong(){
     likeButtonRender();
 }
 
+// função para ir para a música anterior
 function previousSong(){
     if(index === 0){
         index = sortedPlaylist.length - 1;
@@ -94,6 +99,7 @@ function previousSong(){
     playsong();
 }
 
+// função para ir para a próxima música
 function nextSong(){
     if(index === sortedPlaylist.length - 1){
         index = 0;
@@ -104,12 +110,14 @@ function nextSong(){
     playsong();
 }
 
+// função para atualizar a barra de progresso
 function updateProgress(){
     const barWidth = (song.currentTime/song.duration)*100;
     currentProgress.style.setProperty("--progress", `${barWidth}%`);
     songTime.innerText = formatTime(song.currentTime);
 }
 
+// função para pular para uma posição específica na música
 function jumpTo(){
     const width = progressContainer.clientWidth;
     const clickPosition = event.offsetX;
@@ -117,6 +125,7 @@ function jumpTo(){
     song.currentTime =  jumpToTime;
 }
 
+// função para embaralhar o array
 function shuffleArray(preShuffleArray){
     const shuffledArray = [...preShuffleArray];  
     const size = shuffledArray.length;  
@@ -133,6 +142,7 @@ function shuffleArray(preShuffleArray){
     return shuffledArray;
 }
 
+// função para lidar com o clique no botão de embaralhar
 function shuffleButtonClicked(){
     if (isShuffled === false) {
         isShuffled = true;
@@ -147,6 +157,7 @@ function shuffleButtonClicked(){
     playsong(); 
 }
 
+// função para lidar com o clique no botão de repetir
 function repeatButtonClicked(){
     if (repeatOn === false) {
         repeatOn = true;
@@ -157,6 +168,7 @@ function repeatButtonClicked(){
     }
 }
 
+// função para ir para a próxima música ou repetir a atual dependendo do estado do botão de repetir
 function nextOrRepeat() {
     if (repeatOn) {
         song.currentTime = 0; 
@@ -166,6 +178,7 @@ function nextOrRepeat() {
     }
 }
 
+// função para formatar o tempo em segundos para o formato HH:MM:SS ou MM:SS
 function formatTime(timeInSeconds) {
     let hours = Math.floor(timeInSeconds / 3600);
     let minutes = Math.floor((timeInSeconds % 3600) / 60);
@@ -182,11 +195,13 @@ function formatTime(timeInSeconds) {
     }
 }
 
+// função para atualizar o tempo total da música
 function updateTotalTime(){
     totalTime.innerText = formatTime(song.duration);
     
 }
 
+// função para lidar com o clique no botão de like
 function likeButtonClicked(){
     if (sortedPlaylist[index].liked === false){
         sortedPlaylist[index].liked = true;
