@@ -9,6 +9,8 @@ const currentProgress = document.getElementById("current-progress");
 const progressContainer = document.getElementById("progress-container");
 const shuffleButton = document.getElementById("shuffle");
 const repeatButton = document.getElementById("repeat");
+const songTime = document.getElementById("song-time");
+const totalTime = document.getElementById("total-time");
 
 const millionReasons = {
     songName : "Million Reasons",
@@ -84,9 +86,10 @@ function nextSong(){
     playsong();
 }
 
-function updateProgressBar(){
+function updateProgress(){
     const barWidth = (song.currentTime/song.duration)*100;
     currentProgress.style.setProperty("--progress", `${barWidth}%`);
+    songTime.innerText = formatTime(song.currentTime);
 }
 
 function jumpTo(){
@@ -122,7 +125,8 @@ function shuffleButtonClicked(){
         isShuffled = false;
         shuffleButton.classList.remove("button-active");
     }
-    initializeSong();  
+    initializeSong();
+    playsong(); 
 }
 
 function repeatButtonClicked(){
@@ -135,28 +139,44 @@ function repeatButtonClicked(){
     }
 }
 
-function nextOrRepeat(){
-    if (repeatOn === false){
-        nextSong();
-    } else {
+function nextOrRepeat() {
+    if (repeatOn) {
         song.currentTime = 0; 
         playsong(); 
+    } else {
+        nextSong();
     }
 }
 
-song.addEventListener('ended', () => {
-    if (repeatOn) {
-        song.currentTime = 0;  
-        playsong(); 
+function formatTime(timeInSeconds) {
+    let hours = Math.floor(timeInSeconds / 3600);
+    let minutes = Math.floor((timeInSeconds % 3600) / 60);
+    let seconds = Math.floor(timeInSeconds % 60);
+
+    if (hours > 0) {
+        return `${hours.toString().padStart(2, '0')}:${minutes
+            .toString()
+            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    } else {
+        return `${minutes.toString().padStart(2, '0')}:${seconds
+            .toString()
+            .padStart(2, '0')}`;
     }
-});
+}
+
+function updateTotalTime(){
+    totalTime.innerText = formatTime(song.duration);
+    
+}
 
 initializeSong();
 
 play.addEventListener("click", playPauseDecider);
 previous.addEventListener("click", previousSong);
-next.addEventListener("click", nextOrRepeat);  // Usando nextOrRepeat para controlar repetição
-song.addEventListener('timeupdate', updateProgressBar);
+next.addEventListener("click", nextOrRepeat); 
+song.addEventListener('timeupdate', updateProgress);
+song.addEventListener("ended", nextOrRepeat);
+song.addEventListener("loadedmetadata", updateTotalTime);
 progressContainer.addEventListener("click", jumpTo);
 shuffleButton.addEventListener("click", shuffleButtonClicked);
 repeatButton.addEventListener("click", repeatButtonClicked);

@@ -83,9 +83,17 @@ button {
 }
 
 #progress-container {
-    padding-bottom: 1em;
+    cursor: pointer;;
 }
 
 .button-active {
     color: rgb(55, 121, 55);
+}
+
+#time-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: smaller;
+    margin-top: 0.5em;
 }
